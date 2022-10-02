@@ -19,6 +19,7 @@ h2 {
   color: #785964;
   font-weight: normal;
   font-family: 'Ubuntu', sans-serif;
+  padding-bottom: 10px;
 }
 
 h3 {
@@ -28,10 +29,12 @@ h3 {
 a {
   color: #93B7BE;
 }
+p {
+  line-height: 2;
+}
 hr {
-  border-style: dotted none none;
-  border-width: 6px;
-  border-color: #D5C7BC;
+  border: dotted #D5C7BC 6px;
+  border-bottom: none;
   width: 5%;
   margin: 60px auto 60px auto;
 
@@ -125,7 +128,7 @@ hr {
 .footer-link:hover {
   text-decoration: underline;
 }
-.credit {
+.copyright {
   font-size: 0.6rem;
   color: #ffffff;
   margin-top: 30px;
