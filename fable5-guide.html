@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2c3e50">
+  <title>Claude Fable 5 能力指南</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* 專案既有配色 + 日本傳統色補充 */
+      --bg: #f8faf9;           /* 白練 shirotsururi 近似 */
+      --surface: #ffffff;
+      --primary: #93b7be;      /* 專案主色 */
+      --primary-dark: #6a959c;
+      --accent: #785964;       /* 專案強調色 */
+      --accent-soft: #d5c7bc;  /* 專案 footer 色 */
+      --text: #454545;
+      --text-muted: #6b7280;
+      --success: #5a8f7b;      /* 常磐色 tokiwairo 近似 */
+      --warning: #c9a227;      /* 山吹色 yamabukiiro 近似 */
+      --danger: #b85c5c;       /* 紅梅色 kobaiiro 近似 */
+      --info: #4a7c9e;         /* 藍鼠色 ainezumi 近似 */
+      --shadow: 0 2px 12px rgba(69, 69, 69, 0.08);
+      --radius: 14px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+      padding-bottom: calc(72px + var(--safe-bottom));
+    }
+
+    /* ── 頂部封面 ── */
+    .hero {
+      background: linear-gradient(160deg, #2c3e50 0%, #4a6fa5 55%, var(--primary) 100%);
+      color: #fff;
+      padding: 2.5rem 1.25rem 2rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      opacity: 0.92;
+      max-width: 22rem;
+      margin: 0 auto;
+    }
+
+    .hero-meta {
+      margin-top: 1.25rem;
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+
+    /* ── 快速導覽（固定底部） ── */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--accent-soft);
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0.5rem 0.75rem calc(0.5rem + var(--safe-bottom));
+      z-index: 100;
+      gap: 0.4rem;
+    }
+
+    .nav-bar::-webkit-scrollbar { display: none; }
+
+    .nav-bar a {
+      flex-shrink: 0;
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      background: var(--bg);
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-bar a:active,
+    .nav-bar a:focus {
+      background: var(--primary);
+      color: #fff;
+      outline: none;
+    }
+
+    /* ── 主內容區 ── */
+    main {
+      max-width: 36rem;
+      margin: 0 auto;
+      padding: 1rem 1rem 0;
+    }
+
+    section {
+      scroll-margin-top: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      border: 1px solid rgba(213, 199, 188, 0.5);
+    }
+
+    .section-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    h3 {
+      font-size: 1rem;
+      color: var(--primary-dark);
+      margin: 1rem 0 0.5rem;
+    }
+
+    p { margin-bottom: 0.75rem; }
+    p:last-child { margin-bottom: 0; }
+
+    ul, ol {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    /* ── 重點框 ── */
+    .highlight {
+      background: linear-gradient(135deg, #f1fffa, #e8f4f0);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 10px 10px 0;
+      padding: 0.85rem 1rem;
+      margin: 0.75rem 0;
+      font-size: 0.92rem;
+    }
+
+    .highlight strong { color: var(--accent); }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .tag-blue  { background: #e8f0f6; color: var(--info); }
+    .tag-green { background: #e8f4ee; color: var(--success); }
+    .tag-gold  { background: #faf3e0; color: #8a6d1a; }
+    .tag-red   { background: #fceaea; color: var(--danger); }
+
+    /* ── 規格表 ── */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 0.75rem 0;
+    }
+
+    .spec-table tr {
+      border-bottom: 1px solid var(--accent-soft);
+    }
+
+    .spec-table tr:last-child { border-bottom: none; }
+
+    .spec-table td {
+      padding: 0.55rem 0;
+      vertical-align: top;
+    }
+
+    .spec-table td:first-child {
+      color: var(--text-muted);
+      width: 38%;
+      padding-right: 0.5rem;
+      font-size: 0.82rem;
+    }
+
+    .spec-table td:last-child {
+      font-weight: 500;
+    }
+
+    /* ── 能力卡片網格 ── */
+    .ability-grid {
+      display: grid;
+      gap: 0.75rem;
+      margin: 0.75rem 0;
+    }
+
+    .ability-item {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(147, 183, 190, 0.35);
+    }
+
+    .ability-item .icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .ability-item h4 {
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .ability-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ── 對比表（手機堆疊） ── */
+    .compare-block {
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.75rem 0;
+      border: 1px solid var(--accent-soft);
+    }
+
+    .compare-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .compare-header div {
+      padding: 0.5rem;
+    }
+
+    .compare-header .yes { background: #e8f4ee; color: var(--success); }
+    .compare-header .no  { background: #fceaea; color: var(--danger); }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      font-size: 0.82rem;
+      border-top: 1px solid var(--accent-soft);
+    }
+
+    .compare-row .task {
+      grid-column: 1 / -1;
+      background: var(--bg);
+      padding: 0.45rem 0.75rem;
+      font-weight: 500;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--accent-soft);
+    }
+
+    .compare-row .cell {
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+    }
+
+    .compare-row .cell.yes { background: #f6fbf8; }
+    .compare-row .cell.no  { background: #fdf8f8; color: var(--text-muted); }
+
+    /* ── 模型選擇階梯 ── */
+    .ladder {
+      margin: 0.75rem 0;
+    }
+
+    .ladder-step {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+      align-items: flex-start;
+    }
+
+    .ladder-bar {
+      width: 4px;
+      border-radius: 2px;
+      align-self: stretch;
+      min-height: 3rem;
+      flex-shrink: 0;
+    }
+
+    .ladder-step:nth-child(1) .ladder-bar { background: #4a7c9e; height: 4.5rem; }
+    .ladder-step:nth-child(2) .ladder-bar { background: var(--primary); height: 3.5rem; }
+    .ladder-step:nth-child(3) .ladder-bar { background: var(--accent-soft); height: 2.5rem; }
+
+    .ladder-content h4 {
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .ladder-content p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* ── 方案卡片 ── */
+    .plan-card {
+      border: 1px solid var(--accent-soft);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+
+    .plan-card.recommended {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #f1fffa, #fff);
+    }
+
+    .plan-label {
+      position: absolute;
+      top: -0.55rem;
+      right: 0.75rem;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .plan-card h4 {
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .plan-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .prompt-box {
+      background: #2c3e50;
+      color: #e8edf2;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      margin-top: 0.6rem;
+      overflow-x: auto;
+    }
+
+    /* ── effort 表 ── */
+    .effort-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .effort-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed var(--accent-soft);
+      font-size: 0.88rem;
+    }
+
+    .effort-list li:last-child { border-bottom: none; }
+
+    .effort-name {
+      font-family: monospace;
+      background: var(--bg);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: var(--info);
+      flex-shrink: 0;
+      min-width: 4.5rem;
+    }
+
+    /* ── 總結表 ── */
+    .summary-table {
+      width: 100%;
+      font-size: 0.82rem;
+      border-collapse: collapse;
+    }
+
+    .summary-table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.55rem 0.5rem;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .summary-table th:first-child { border-radius: 8px 0 0 0; }
+    .summary-table th:last-child  { border-radius: 0 8px 0 0; }
+
+    .summary-table td {
+      padding: 0.55rem 0.5rem;
+      border-bottom: 1px solid var(--accent-soft);
+      vertical-align: top;
+    }
+
+    .summary-table tr:last-child td { border-bottom: none; }
+
+    .summary-table tr:nth-child(even) td { background: var(--bg); }
+
+    /* ── 頁尾 ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    footer a { color: var(--primary-dark); }
+
+    @media (min-width: 480px) {
+      .hero h1 { font-size: 2rem; }
+      .ability-grid { grid-template-columns: 1fr 1fr; }
+      .ability-grid .ability-item:first-child { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-badge">CURSOR × ANTHROPIC · 2026</div>
+    <h1>Claude Fable 5<br>能力指南</h1>
+    <p>最強一般可用 Claude 模型，專為長程自主代理與複雜工程任務設計</p>
+    <div class="hero-meta">整理自 Cursor 官方文件與 Anthropic 發布資訊</div>
+  </header>
+
+  <nav class="nav-bar" aria-label="章節導覽">
+    <a href="#s1">是什麼</a>
+    <a href="#s2">核心能力</a>
+    <a href="#s3">Cursor 設定</a>
+    <a href="#s4">何時使用</a>
+    <a href="#s5">本專案建議</a>
+    <a href="#s6">實戰流程</a>
+    <a href="#s7">總結</a>
+  </nav>
+
+  <main>
+
+    <!-- §1 是什麼 -->
+    <section id="s1">
+      <div class="card">
+        <div class="section-num">1</div>
+        <h2>Fable 5 是什麼？</h2>
+        <p><strong>Mythos 級</strong>模型——能力高於 Opus 4.8，是目前一般使用者能取得的<strong>最強 Claude</strong>。在 Cursor 的 CursorBench 實戰編碼測試中排名第一。</p>
+
+        <div class="highlight">
+          <strong>與 Mythos 5 的差別：</strong>兩者底層權重相同，Fable 5 多了一層安全分類器。約 <strong>95% 以上</strong>的對話不會觸發；觸發時 Cursor 會自動降級到 Opus 4.8，工作不中斷。
+        </div>
+
+        <h3>基本規格</h3>
+        <table class="spec-table">
+          <tr><td>API 代號</td><td><code>claude-fable-5</code></td></tr>
+          <tr><td>上下文視窗</td><td>100 萬 tokens</td></tr>
+          <tr><td>單次輸出上限</td><td>128,000 tokens</td></tr>
+          <tr><td>輸入定價</td><td>$10 / 百萬 tokens</td></tr>
+          <tr><td>輸出定價</td><td>$50 / 百萬 tokens</td></tr>
+          <tr><td>相對 Opus 4.8</td><td>約 2 倍費用</td></tr>
+          <tr><td>思考模式</td><td>永遠開啟（自適應）</td></tr>
+          <tr><td>視覺能力</td><td>支援截圖、圖表、PDF</td></tr>
+          <tr><td>資料保留</td><td>強制 30 天，不可關閉</td></tr>
+        </table>
+
+        <div class="tag-row">
+          <span class="tag tag-blue">Mythos 級</span>
+          <span class="tag tag-green">CursorBench #1</span>
+          <span class="tag tag-gold">長程 Agent</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- §2 核心能力 -->
+    <section id="s2">
+      <div class="card">
+        <div class="section-num">2</div>
+        <h2>五大核心能力</h2>
+
+        <div class="ability-grid">
+          <div class="ability-item">
+            <div class="icon">🤖</div>
+            <h4>長程自主代理</h4>
+            <p>在數百萬 tokens 的長對話中維持意圖，減少中途確認。Stripe 實測：5000 萬行 codebase 的全庫遷移，從兩個月壓縮到一天。</p>
+          </div>
+          <div class="ability-item">
+            <div class="icon">⚙️</div>
+            <h4>軟體工程</h4>
+            <p>自行寫測試驗證、多步驟 agent 工作流（搜尋→修改→測試→修復）完成率明顯高於 Opus。</p>
+          </div>
+          <div class="ability-item">
+            <div class="icon">👁️</div>
+            <h4>視覺能力</h4>
+            <p>從設計稿截圖還原前端、讀取圖表數字、用視覺比對實作結果與設計目標。</p>
+          </div>
+          <div class="ability-item">
+            <div class="icon">🧠</div>
+            <h4>深度推理</h4>
+            <p>透過 effort 參數控制思考深度。max 等級會反思並驗證自己的輸出，適合高風險任務。</p>
+          </div>
+          <div class="ability-item">
+            <div class="icon">📄</div>
+            <h4>知識工作</h4>
+            <p>文件推理、財務分析、法律審閱等場景表現突出，適合文件密集的專業工作。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §3 Cursor 設定 -->
+    <section id="s3">
+      <div class="card">
+        <div class="section-num">3</div>
+        <h2>在 Cursor 中啟用</h2>
+
+        <h3>啟用步驟</h3>
+        <ol>
+          <li>前往 <strong>Cursor Dashboard → Team Settings</strong></li>
+          <li>啟用 Fable 5 並同意資料保留政策</li>
+          <li>在模型選單選擇 <strong>Claude Fable 5</strong>（建議 high thinking 變體）</li>
+        </ol>
+
+        <h3>隱私注意</h3>
+        <div class="highlight">
+          若帳號開啟 <strong>Privacy Mode</strong>，需額外同意 Anthropic 的 30 天資料保留條款。Enterprise 需在組織層級核准。啟用 Fable 5 <strong>不會改變</strong> Cursor 自身的資料保留設定。
+        </div>
+
+        <h3>自動降級機制</h3>
+        <p>觸及網路安全、生物化學、模型蒸餾等敏感主題時，Cursor 會<strong>靜默切換到 Opus 4.8</strong>，不需手動重試。平均不到 5% 的對話會觸發。</p>
+
+        <h3>計費方式</h3>
+        <p>Fable 5 從 <strong>API usage pool</strong> 計費（非 fast requests 池）。善用 prompt caching 可享快取讀取 <strong>90% 折扣</strong>。</p>
+      </div>
+    </section>
+
+    <!-- §4 何時使用 -->
+    <section id="s4">
+      <div class="card">
+        <div class="section-num">4</div>
+        <h2>什麼時候該用？</h2>
+
+        <div class="ladder">
+          <div class="ladder-step">
+            <div class="ladder-bar"></div>
+            <div class="ladder-content">
+              <h4>🔵 Fable 5 — 最複雜</h4>
+              <p>大型重構、多檔案 agent、設計稿還原、長時間 Cloud Agent、架構決策</p>
+            </div>
+          </div>
+          <div class="ladder-step">
+            <div class="ladder-bar"></div>
+            <div class="ladder-content">
+              <h4>🟢 Opus 4.8 — 中等</h4>
+              <p>中等功能開發、除錯、單一模組實作</p>
+            </div>
+          </div>
+          <div class="ladder-step">
+            <div class="ladder-bar"></div>
+            <div class="ladder-content">
+              <h4>⚪ Sonnet / Composer — 簡單</h4>
+              <p>小改動、問答、格式化、簡單 CRUD</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="compare-block">
+          <div class="compare-header">
+            <div class="yes">✅ 適合 Fable 5</div>
+            <div class="no">❌ 用輕量模型即可</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">跨 10+ 檔案的重構</div>
+            <div class="cell yes">✓</div>
+            <div class="cell no">—</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">改一行 CSS 顏色</div>
+            <div class="cell no">—</div>
+            <div class="cell yes">✓</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">設計稿 → 前端還原</div>
+            <div class="cell yes">✓</div>
+            <div class="cell no">—</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">換聯絡 email</div>
+            <div class="cell no">—</div>
+            <div class="cell yes">✓</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">Agent 自主跑測試修 CI</div>
+            <div class="cell yes">✓</div>
+            <div class="cell no">—</div>
+          </div>
+          <div class="compare-row">
+            <div class="task">解釋某段程式在做什麼</div>
+            <div class="cell no">—</div>
+            <div class="cell yes">✓</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- §5 本專案建議 -->
+    <section id="s5">
+      <div class="card">
+        <div class="section-num">5</div>
+        <h2>針對 morris 專案的建議</h2>
+        <p>目前專案是單頁 HTML/CSS 個人作品集（App Brewery 教學範本）。<strong>日常小改動不需要 Fable 5</strong>，但以下升級方向值得動用：</p>
+
+        <div class="plan-card recommended">
+          <span class="plan-label">推薦</span>
+          <h4>方案 A：設計驅動全面改版</h4>
+          <p>貼 Figma 或參考網站截圖，讓 Fable 5 用 vision 還原設計並迭代修正。</p>
+          <div class="prompt-box">參考這張設計稿，將 Morris Li 個人頁改版為現代化單頁。要求：Tailwind CSS、響應式、無障礙、保留現有配色。完成後用截圖比對設計稿差異並修正。</div>
+        </div>
+
+        <div class="plan-card">
+          <h4>方案 B：遷移到現代技術棧</h4>
+          <p>HTML/CSS → Vite + React + TypeScript + Tailwind，拆成元件並建立 GitHub Pages 部署。</p>
+        </div>
+
+        <div class="plan-card">
+          <h4>方案 C：內容與 SEO 強化</h4>
+          <p>替換 Lorem ipsum、加入 Open Graph / JSON-LD、語意化 HTML、效能優化。</p>
+        </div>
+
+        <div class="plan-card">
+          <h4>方案 D：多頁擴充</h4>
+          <p>新增 /projects、/blog 多頁結構，projects 用 JSON 資料驅動卡片列表。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- §6 實戰流程 -->
+    <section id="s6">
+      <div class="card">
+        <div class="section-num">6</div>
+        <h2>實戰工作流程</h2>
+
+        <h3>分層用模型（省錢又有效）</h3>
+        <div class="highlight">
+          探索 / 小改 → <strong>Composer / Sonnet</strong><br>
+          卡住或任務變大 → <strong>Fable 5 (high)</strong><br>
+          極難推理 → <strong>Fable 5 (xhigh / max)</strong>
+        </div>
+
+        <h3>effort 等級選擇</h3>
+        <ul class="effort-list">
+          <li><span class="effort-name">low</span> 簡單重構、格式整理</li>
+          <li><span class="effort-name">medium</span> 日常開發任務</li>
+          <li><span class="effort-name">high</span> 預設，多數 agent 任務</li>
+          <li><span class="effort-name">xhigh</span> 架構遷移、複雜除錯</li>
+          <li><span class="effort-name">max</span> 需自我驗證的高風險任務</li>
+        </ul>
+
+        <h3>Cloud Agent 最佳實踐</h3>
+        <ul>
+          <li>一次給清楚<strong>目標與驗收條件</strong>（如「測試通過」「Lighthouse &gt; 90」）</li>
+          <li>在 User Rules 寫好專案慣例（語言、框架、風格偏好）</li>
+          <li>長任務用<strong>新對話</strong>開始，避免舊對話格式錯誤</li>
+          <li>善用 <strong>vision</strong>：截圖現有頁面 → 指出問題 → 實作後再截圖比對</li>
+        </ul>
+
+        <h3>成本控管三原則</h3>
+        <ol>
+          <li>簡單任務別預設 Fable 5</li>
+          <li>重複的 system prompt / rules 讓 caching 命中</li>
+          <li>大任務拆成「規劃（輕模型）」+「執行（Fable 5 Agent）」</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- §7 總結 -->
+    <section id="s7">
+      <div class="card">
+        <div class="section-num">7</div>
+        <h2>快速決策表</h2>
+
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>你的目標</th>
+              <th>建議模型</th>
+              <th>方式</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>維持現狀、偶爾小改</td>
+              <td>Composer / Sonnet</td>
+              <td>Chat 模式</td>
+            </tr>
+            <tr>
+              <td>個人頁現代化改版</td>
+              <td><strong>Fable 5</strong></td>
+              <td>Agent + 設計截圖</td>
+            </tr>
+            <tr>
+              <td>遷移到 React 全站</td>
+              <td><strong>Fable 5</strong></td>
+              <td>Cloud Agent 長任務</td>
+            </tr>
+            <tr>
+              <td>研究 Fable 5 能力</td>
+              <td><strong>Fable 5</strong></td>
+              <td>多步驟 + vision 任務</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="highlight" style="margin-top: 1rem;">
+          <strong>一句話總結：</strong>Fable 5 是為「以前模型做不完、或需要反覆盯著的事」設計的——大型工程、長程 agent、視覺還原、自主測試。morris 專案很適合當低風險試驗場。
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+  <p>資料來源：<a href="https://cursor.com/docs/models/claude-fable-5">Cursor Docs</a> · <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5">Anthropic</a></p>
+  <p style="margin-top:0.4rem;">morris 專案 · Fable 5 能力指南</p>
+  </footer>
+
+</body>
+</html>
